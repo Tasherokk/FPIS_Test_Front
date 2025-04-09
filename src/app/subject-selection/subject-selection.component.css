@@ -1,0 +1,158 @@
+/* subject-selection.component.css */
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#title {
+  text-align: center;
+}
+
+
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  color: #2c3e50;
+}
+
+.content {
+  display: flex;
+  gap: 20px;
+}
+
+.table-container {
+  flex: 1;
+}
+
+.info-container {
+  flex: 2;
+}
+
+.subject-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 2px solid black;
+}
+
+.subject-table th, .subject-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.subject-table th {
+  background-color: #2c3e50;
+  color: #fff;
+}
+
+.subject-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.test-count, .scoring-rules, .additional-info {
+  list-style-type: disc;
+  margin: 10px 0 20px 20px;
+  color: #34495e;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+
+.warning-message {
+  border: 2px solid red;           /* Красная рамка для наглядности */
+  background-color: #ffd4d4;       /* Светло-красный фон */
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 1.1em;                /* Немного увеличить шрифт */
+  color: #a94442;                  /* Цвет текста — ближе к красному */
+  border-radius: 5px;             /* Слегка скруглить углы */
+}
+
+.warning-message strong {
+  display: block;                  /* Чтобы слово «НАЗАР АУДАРЫҢЫЗ!» было на отдельной строке */
+  margin-bottom: 5px;
+  font-size: 1.2em;
+  color: red;                      /* Можно сделать ещё ярче */
+}

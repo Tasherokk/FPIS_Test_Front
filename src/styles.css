@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+html {
+  zoom: 0.8; /* Масштабирование на 80% */
+}
+
+body {
+  background-color: #ebfbfb;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+
+img {
+  max-width: 90%;
+  max-height: 600px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

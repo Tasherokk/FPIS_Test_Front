@@ -1,0 +1,340 @@
+<div class="header" xmlns="http://www.w3.org/1999/html">
+  <h2 class="full_name">{{this.full_name}}</h2>
+  <div class="timer" *ngIf="!isReviewMode">Қалған уақыт: {{ formatTime(timeLeft) }}</div>
+  <div class="navigation-buttons">
+    <button class="submit-answers" *ngIf="currentSubjectIndex === testData.length - 1 && !isReviewMode" (click)="onSubmit()">Тестілеуді аяқтау</button>
+    <button (click)="backToMainPage()" *ngIf="isReviewMode">Басты бетке оралу</button>
+    <button (click)="backToResultPage()" *ngIf="isReviewMode">Нәтижеге оралу</button>
+    <button (click)="previousSubject()" [disabled]="currentSubjectIndex === 0">< Алдыңғы пән</button>
+    <button (click)="nextSubject()" [disabled]="currentSubjectIndex === testData.length - 1">Келесі пән ></button>
+  </div>
+</div>
+
+<div class="left-sidebar">
+  <button (click)="toggleCalculator()" class="icon-button">
+    <img src="calculator-icon.png" alt="Calculator Icon" />
+    <p>Калькулятор</p>
+  </button>
+  <button (click)="togglePeriodicTable()" class="icon-button table">
+    <img src="table-icon.png" alt="Periodic Table Icon" />
+    <p>Менделеев</p>
+    <p>Кестесі</p>
+  </button>
+  <button (click)="toggleSolvetyTable()" class="icon-button table">
+    <img src="table-icon.png" alt="Solvety Table Icon" />
+    <p>Ерігіштік</p>
+    <p>Кестесі</p>
+  </button>
+</div>
+
+
+
+<div  class="calculator-container" *ngIf="showCalculator" cdkDrag>
+  <div class="calculator-header">
+    <span>Калькулятор</span>
+    <button class="close-btn" (click)="closeCalculator()">&times;</button>
+  </div>
+  <input type="text" [(ngModel)]="expression" class="display" readonly />
+
+  <div class="button-grid">
+    <button (click)="appendToExpression('%')" class="expression-button">%</button>
+    <button (click)="clearEntry()" class="expression-button">CE</button>
+    <button (click)="clear()" class="expression-button">C</button>
+    <button (click)="backspace()" class="expression-button">&lt;</button>
+    <button (click)="appendToExpression('1/x')" class="expression-button">1/x</button>
+    <button (click)="calculateSquare()" class="expression-button">x²</button>
+    <button (click)="calculateSquareRoot()" class="expression-button">√x</button>
+    <button (click)="appendToExpression('/')" class="expression-button">/</button>
+    <button (click)="appendToExpression('7')" class="number-Buttons">7</button>
+    <button (click)="appendToExpression('8')" class="number-Buttons">8</button>
+    <button (click)="appendToExpression('9')" class="number-Buttons">9</button>
+    <button (click)="appendToExpression('*')" class="expression-button">X</button>
+    <button (click)="appendToExpression('4')" class="number-Buttons">4</button>
+    <button (click)="appendToExpression('5')" class="number-Buttons">5</button>
+    <button (click)="appendToExpression('6')" class="number-Buttons">6</button>
+    <button (click)="appendToExpression('-')" class="expression-button">-</button>
+    <button (click)="appendToExpression('1')" class="number-Buttons">1</button>
+    <button (click)="appendToExpression('2')" class="number-Buttons">2</button>
+    <button (click)="appendToExpression('3')" class="number-Buttons">3</button>
+    <button (click)="appendToExpression('+')" class="expression-button">+</button>
+    <button (click)="toggleSign()" class="number-Buttons">+/-</button>
+    <button (click)="appendToExpression('0')" class="number-Buttons">0</button>
+    <button (click)="appendToExpression('.')" class="number-Buttons">.</button>
+    <button (click)="calculate()" class="equal">=</button>
+  </div>
+</div>
+
+
+<div  class="periodic-table-container" *ngIf="showPeriodicTable" cdkDrag>
+  <div class="periodic-table-header">
+    <span>Менделеев кестесі</span>
+    <button class="close-btn" (click)="closePeriodicTable()">&times;</button>
+  </div>
+  <img src="periodic-table.png" alt="Periodic Table" class="periodic-table-img">
+</div>
+
+
+<div class="periodic-table-container" *ngIf="showSolvetyTable" cdkDrag>
+  <div class="periodic-table-header">
+    <span>Ерігіштік кестесі</span>
+    <button class="close-btn" (click)="closeSolvetyTable()">&times;</button>
+  </div>
+  <img src="solvety-table.png" alt="Solvety Table" class="solvety-table-img">
+</div>
+
+
+
+
+
+
+
+<!-- Кнопки для перехода к конкретному вопросу -->
+<div class="question-buttons">
+  <button
+    *ngFor="let question of currentSubject.questions; let i = index"
+    (click)="goToQuestion(i)"
+    [ngClass]="{
+      'answered': !isReviewMode && isQuestionAnswered(currentSubject.id, question.id, question.question_type),
+      'current-question': i === currentQuestionIndex,
+      'correct': isReviewMode && isQuestionCorrect(currentSubject.id, question.id),
+      'incorrect': isReviewMode && !isQuestionCorrect(currentSubject.id, question.id)
+    }">
+    {{ i + 1 }}
+  </button>
+</div>
+
+<!-- Навигация по вопросам -->
+
+
+
+
+<div *ngIf="currentSubject" class="questions">
+
+  <div class="question-navigation">
+    <button (click)="previousQuestion()" [disabled]="currentQuestionIndex === 0">< Алдыңғы Сұрақ</button>
+
+    <h3>Бөлім: {{ subjectNames[currentSubject.name] || currentSubject.name }} </h3>
+    <h4>Cұрақ №{{currentQuestionIndex + 1}}</h4>
+    <button (click)="nextQuestion()" [disabled]="currentQuestionIndex === currentSubject.questions.length - 1">Келесі Сұрақ ></button>
+  </div>
+
+<!--  <div *ngFor="let question of currentSubject.questions">-->
+  <div *ngIf="currentSubject.questions[currentQuestionIndex] as question">
+
+    <h4 *ngIf="question.question_type === 'SC'"> Бір жауапты сұрақ </h4>
+    <h4 *ngIf="question.question_type === 'MC'"> Бір немесе бірнеше жауапты сұрақ </h4>
+    <h4 *ngIf="question.question_type === 'MT'"> Cәйкестендіру сұрағы </h4>
+
+    <p [innerHTML]="currentSubject.questions[currentQuestionIndex].text" draggable="false"></p>
+
+
+    <!-- Single Choice Question -->
+    <span *ngIf="question.question_type === 'SC'">
+        <label
+          class="answer-label"
+          *ngFor="let answer of question.answers"
+          [ngClass]="{
+            'user-correct': isReviewMode && isUserSelectedThisAnswer(currentSubject.id, question.id, answer.id) &&
+              isThisCorrectAnswer(currentSubject.id, question.id, answer.id),
+            'user-wrong': isReviewMode && isUserSelectedThisAnswer(currentSubject.id, question.id, answer.id) &&
+              !isThisCorrectAnswer(currentSubject.id, question.id, answer.id),
+            'this-is-correct': isReviewMode && isThisCorrectAnswer(currentSubject.id, question.id, answer.id)
+          }"
+        >
+          <input
+            type="radio"
+            [name]="'question-' + question.id"
+            [value]="answer.id"
+            [checked]="answers[currentSubject.id]?.[question.id]?.[0] === answer.id"
+            (change)="recordAnswer(currentSubject.id, question.id, [answer.id])"
+            [disabled]="isReviewMode"
+            style="margin-right: 8px;"
+          />
+          <span [innerHTML]="answer.text" style="display:inline-block" draggable="false"></span>
+        </label>
+      </span>
+
+
+    <!-- Multiple Choice Question -->
+    <span *ngIf="question.question_type === 'MC'">
+      <label
+        class="answer-label"
+        *ngFor="let answer of question.answers"
+        [ngClass]="{
+          'user-correct': isReviewMode && isUserSelectedThisAnswer(currentSubject.id, question.id, answer.id) &&
+            isThisCorrectAnswer(currentSubject.id, question.id, answer.id),
+          'user-wrong': isReviewMode && isUserSelectedThisAnswer(currentSubject.id, question.id, answer.id) &&
+            !isThisCorrectAnswer(currentSubject.id, question.id, answer.id),
+          'this-is-correct': isReviewMode && isThisCorrectAnswer(currentSubject.id, question.id, answer.id)
+        }"
+      >
+        <input
+          type="checkbox"
+          [name]="'question-' + question.id"
+          [value]="answer.id"
+          [checked]="answers[currentSubject.id]?.[question.id]?.includes(answer.id)"
+          (change)="toggleCheckboxAnswer(currentSubject.id, question.id, answer.id, $event)"
+          [disabled]="isReviewMode"
+          style="margin-right: 8px;"
+        />
+        <span [innerHTML]="answer.text" style="display:inline-block" draggable="false"></span>
+      </label>
+    </span>
+<!--    <span *ngIf="question.question_type === 'MC'">-->
+<!--      <div *ngFor="let answer of question.answers">-->
+<!--        <label class="answer-label">-->
+<!--          <input-->
+<!--            type="checkbox"-->
+<!--            [name]="'question-' + question.id"-->
+<!--            [value]="answer.id"-->
+<!--            [checked]="answers[currentSubject.id]?.[question.id]?.includes(answer.id)"-->
+<!--            (change)="toggleCheckboxAnswer(currentSubject.id, question.id, answer.id, $event)"-->
+<!--            style="display:inline-block"-->
+<!--          />-->
+<!--          <div class="answer-content">-->
+<!--            <span [innerHTML]="answer.text" style="display:inline-block" draggable="false"></span>-->
+<!--          </div>-->
+<!--        </label>-->
+<!--      </div>-->
+<!--    </span>-->
+
+
+    <!-- Matching Type Question -->
+    <span *ngIf="question.question_type === 'MT'">
+      <p>Келесілерді сәйкестендіріңіз:</p>
+      <table>
+        <tr *ngIf="question.matching_pairs.length > 0">
+          <td [innerHTML]="question.matching_pairs[0].left_side_1" style="display:inline-block; width: 80%"></td>
+          <td>
+<!--            <select-->
+<!--              *ngIf="answers[currentSubject.id] && answers[currentSubject.id][question.id]"-->
+<!--              [(ngModel)]="answers[currentSubject.id][question.id]['left_side_1']"-->
+<!--              [ngModelOptions]="{standalone: true}"-->
+<!--              (change)="recordMatchingAnswer(currentSubject.id, question.id, 'left_side_1', ($any($event.target).value))"-->
+<!--              [ngClass]="{-->
+<!--                'matching-correct': isReviewMode && isMatchingCorrect(currentSubject.id, question.id, 'left_side_1'),-->
+<!--                'matching-wrong': isReviewMode && !isMatchingCorrect(currentSubject.id, question.id, 'left_side_1')-->
+<!--              }"-->
+<!--              [disabled]="isReviewMode"-->
+<!--            >-->
+<!--              <option [value]="1" [innerHTML]="question.matching_pairs[0].right_option_1"></option>-->
+<!--              <option [value]="2" [innerHTML]="question.matching_pairs[0].right_option_2"></option>-->
+<!--              <option [value]="3" [innerHTML]="question.matching_pairs[0].right_option_3"></option>-->
+<!--              <option [value]="4" [innerHTML]="question.matching_pairs[0].right_option_4"></option>-->
+<!--            </select>-->
+            <mat-form-field appearance="fill">
+              <mat-label>Дұрыс жауапты таңдаңыз</mat-label>
+
+              <mat-select
+                *ngIf="answers[currentSubject.id] && answers[currentSubject.id][question.id]"
+                [(value)]="answers[currentSubject.id][question.id]['left_side_1']"
+                [disabled]="isReviewMode"
+                (selectionChange)="recordMatchingAnswer(currentSubject.id, question.id, 'left_side_1', $event.value)"
+                [ngClass]="{
+                  'matching-correct': isReviewMode && isMatchingCorrect(currentSubject.id, question.id, 'left_side_1'),
+                  'matching-wrong': isReviewMode && !isMatchingCorrect(currentSubject.id, question.id, 'left_side_1')
+                }"
+              >
+
+                <mat-select-trigger>
+                  <span [innerHTML]="getHTMLForValue(answers[currentSubject.id][question.id]['left_side_1'])"></span>
+                </mat-select-trigger>
+
+                <mat-option [value]="1">
+                  <span [innerHTML]="question.matching_pairs[0].right_option_1"></span>
+                </mat-option>
+
+                <mat-option [value]="2">
+                  <span [innerHTML]="question.matching_pairs[0].right_option_2"></span>
+                </mat-option>
+
+                <mat-option [value]="3">
+                  <span [innerHTML]="question.matching_pairs[0].right_option_3"></span>
+                </mat-option>
+
+                <mat-option [value]="4">
+                  <span [innerHTML]="question.matching_pairs[0].right_option_4"></span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr *ngIf="question.matching_pairs.length > 0">
+          <td [innerHTML]="question.matching_pairs[0].left_side_2" style="display:inline-block; width: 80%"></td>
+          <td>
+<!--            <select-->
+<!--              *ngIf="answers[currentSubject.id] && answers[currentSubject.id][question.id]"-->
+<!--              [(ngModel)]="answers[currentSubject.id][question.id]['left_side_2']"-->
+<!--              [ngModelOptions]="{standalone: true}"-->
+<!--              (change)="recordMatchingAnswer(currentSubject.id, question.id, 'left_side_2', ($any($event.target).value))"-->
+<!--              [ngClass]="{-->
+<!--                'matching-correct': isReviewMode && isMatchingCorrect(currentSubject.id, question.id, 'left_side_2'),-->
+<!--                'matching-wrong': isReviewMode && !isMatchingCorrect(currentSubject.id, question.id, 'left_side_2')-->
+<!--              }"-->
+<!--              [disabled]="isReviewMode"-->
+<!--            >-->
+<!--              <option [value]="1" [innerHTML]="question.matching_pairs[0].right_option_1"></option>-->
+<!--              <option [value]="2" [innerHTML]="question.matching_pairs[0].right_option_2"></option>-->
+<!--              <option [value]="3" [innerHTML]="question.matching_pairs[0].right_option_3"></option>-->
+<!--              <option [value]="4" [innerHTML]="question.matching_pairs[0].right_option_4"></option>-->
+<!--            </select>-->
+            <mat-form-field appearance="fill">
+              <mat-label>Дұрыс жауапты таңдаңыз</mat-label>
+
+              <mat-select
+                *ngIf="answers[currentSubject.id] && answers[currentSubject.id][question.id]"
+                [(value)]="answers[currentSubject.id][question.id]['left_side_2']"
+                [disabled]="isReviewMode"
+                (selectionChange)="recordMatchingAnswer(currentSubject.id, question.id, 'left_side_2', $event.value)"
+                [ngClass]="{
+                  'matching-correct': isReviewMode && isMatchingCorrect(currentSubject.id, question.id, 'left_side_2'),
+                  'matching-wrong': isReviewMode && !isMatchingCorrect(currentSubject.id, question.id, 'left_side_2')
+                }"
+              >
+
+                <mat-select-trigger>
+                  <span [innerHTML]="getHTMLForValue(answers[currentSubject.id][question.id]['left_side_2'])"></span>
+                </mat-select-trigger>
+
+                <mat-option [value]="1">
+                  <span [innerHTML]="question.matching_pairs[0].right_option_1"></span>
+                </mat-option>
+
+                <mat-option [value]="2">
+                  <span [innerHTML]="question.matching_pairs[0].right_option_2"></span>
+                </mat-option>
+
+                <mat-option [value]="3">
+                  <span [innerHTML]="question.matching_pairs[0].right_option_3"></span>
+                </mat-option>
+
+                <mat-option [value]="4">
+                  <span [innerHTML]="question.matching_pairs[0].right_option_4"></span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+    </span>
+
+
+  </div>
+
+</div>
+
+
+<div *ngIf="showSummary">
+  <app-test-summary
+    [testData]="testData"
+    [answers]="answers"
+    [subjectNames]="subjectNames"
+    (onCancel)="onCancelSubmit()"
+    (onCompleteTest)="submitAnswers()"
+  ></app-test-summary>
+</div>
+
+
+<div *ngIf="isSubmitting" class="loading-overlay">
+  <div class="spinner"></div>
+</div>

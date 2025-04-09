@@ -1,0 +1,8 @@
+{
+  "/media": {
+    "target": "",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

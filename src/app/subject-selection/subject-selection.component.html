@@ -1,0 +1,82 @@
+<div class="container">
+  <h1 id="title">ҰБТ Ақпарат</h1>
+
+  <div class="warning-message">
+    <strong>НАЗАР АУДАРЫҢЫЗ!</strong>
+    <p>Егер тестілеу кезінде басқа терезеге немесе вкладкаға ауыссаңыз, тест автоматты түрде аяқталады.</p>
+  </div>
+
+  <div class="content">
+    <div class="table-container">
+      <h2>Бейіндік пәндер тізбесі</h2>
+      <table class="subject-table">
+        <tr>
+          <th>Бірінші бейіндік пән</th>
+          <th>Екінші бейіндік пән</th>
+        </tr>
+        <tr><td>Математика</td><td>Физика</td></tr>
+        <tr><td>Математика</td><td>География</td></tr>
+        <tr><td>Дүниежүзілік тарих</td><td>География</td></tr>
+        <tr><td>Биология</td><td>Химия</td></tr>
+        <tr><td>Биология</td><td>География</td></tr>
+        <tr><td>Шет тілі</td><td>Дүниежүзілік тарих</td></tr>
+        <tr><td>Оқу тілі</td><td>Әдебиеті</td></tr>
+        <tr><td>География</td><td>Шет тілі</td></tr>
+        <tr><td>Химия</td><td>Физика</td></tr>
+        <tr><td>Дүниежүзілік тарих</td><td>Құқық негіздері</td></tr>
+        <tr><td>Математика</td><td>Информатика</td></tr>
+      </table>
+    </div>
+
+
+    <div class="info-container">
+      <br><br><br>
+      <h2>Тест тапсырмаларының саны</h2>
+      <ul class="test-count">
+        <li>Қазақстан тарихы бойынша – 20 тапсырма</li>
+        <li>Математикалық сауаттылық бойынша – 10 тапсырма</li>
+        <li>Оқу сауаттылығы бойынша – 10 тапсырма</li>
+        <li>Екі бейіндік пән бойынша – 40 тапсырма</li>
+        <li>Барлығы – 120 тапсырма</li>
+      </ul>
+
+      <h2>ҰБТ тест тапсырмаларын бағалау</h2>
+      <p>ҰБТ тест тапсырмаларын бағалау ережелері:</p>
+      <ul class="scoring-rules">
+        <li>Ұсынылған төрт жауаптың ішінен бір дұрыс жауапты таңдағанда – <strong>1 балл</strong></li>
+        <li>Ұсынылған көптеген жауаптардың ішінен және сәйкестікті анықтауға арналған тест тапсырмаларында бір немесе бірнеше дұрыс жауаптарды таңдағанда – <strong>2 балл</strong></li>
+        <li>Контекст негізіндегі тест тапсырмалары – <strong>1 балл</strong></li>
+      </ul>
+
+      <h2>ҰБТ туралы қосымша ақпарат</h2>
+      <ul class="additional-info">
+        <li>Барлығы – 120 тест тапсырмасы</li>
+        <li>ҰБТ бойынша ең жоғары балл – 140 балл</li>
+        <li>Тестілеудің ұзақтығы – 4 сағат (240 минут)</li>
+      </ul>
+      <div class="agreement">
+        <label>
+          <input type="checkbox" [(ngModel)]="isAgreed"> Мен ҰБТ ережелерімен келісемін
+        </label>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<form (ngSubmit)="startTest()">
+  <label for="subjectPair">Бейіндік пәндер:</label>
+  <select id="subjectPair" [(ngModel)]="selectedPair" name="subjectPair" required>
+    <option *ngFor="let pair of availablePairs" [value]="pair.name">
+      {{ pair.name }}
+    </option>
+  </select>
+
+  <div *ngIf="errorMessage" class="error-message" [hidden]="!isAgreed">
+    {{ errorMessage }}
+  </div>
+  <button type="submit" [disabled]="!isAgreed || isLoading || isBlocked">Тестілеуді бастау</button>
+</form>
+
+
+<div *ngIf="isLoading" class="loading-spinner"></div>

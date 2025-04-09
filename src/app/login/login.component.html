@@ -1,0 +1,43 @@
+<!-- login.component.html -->
+
+<img src="logo.png" alt="OySana Logo" class="company-logo">
+
+<form (ngSubmit)="login()">
+  <input
+    id="iin"
+    [(ngModel)]="iin"
+    (ngModelChange)="clearErrors()"
+    name="iin"
+    placeholder="ИИН енгізіңіз"
+    required
+  >
+  <div *ngIf="submitted && !isIinValid()">
+    <small>ИИН 12 цифрден тұруы керек</small>
+  </div>
+  <div *ngIf="submitted && loginError">
+    <small>Қате ИИН</small>
+  </div>
+  <button type="submit" [disabled]="isLoading">Кіру</button>
+</form>
+
+<!-- Блок индикатора загрузки -->
+<div *ngIf="isLoading" class="loading-spinner"></div>
+
+<!-- Рекламный баннер -->
+<!--<div class="banner-container">-->
+<!--  <img src="banner.png" alt="Рекламный баннер" class="banner-image">-->
+<!--</div>-->
+
+<!-- Ссылка на Instagram -->
+<div class="social-links">
+  <img src="instagram-icon.png" alt="Instagram" class="icon">
+  <a href="https://www.instagram.com/oysana_edu/" target="_blank" rel="noopener noreferrer" class="link">
+    &#64;oysana_edu
+  </a>
+</div>
+
+<!-- Номер телефона -->
+<div class="social-links">
+  <img src="phone-icon.png" alt="Phone" class="icon" />
+  <a href="tel:+87018917175" class="link">+7 (701) 891-71-75</a>
+</div>

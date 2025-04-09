@@ -1,0 +1,23 @@
+<h2>Сіздің Нәтижеңіз</h2>
+
+<table class="result-table">
+  <thead>
+  <tr>
+    <th>Пән</th>
+    <th>Ұпай</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let subjectResult of testResult.subject_results">
+    <td>{{ subjectNames[subjectResult.subject.name] }}</td>
+    <td>{{ subjectResult.score }}</td>
+  </tr>
+  <tr>
+    <td><strong>Барлығы</strong></td>
+    <td><strong>{{ testResult.total_score }}</strong></td>
+  </tr>
+  </tbody>
+</table>
+
+<button (click)="backToMainPage()">Басты бетке оралу</button>
+<button (click)="reviewMistakes()">Дұрыс жауаптарды көру</button>

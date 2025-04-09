@@ -1,0 +1,41 @@
+
+<!-- Модальное окно -->
+<div class="modal-overlay" *ngIf="showModal || showSummary">
+
+  <div class="test-summary" *ngIf="showSummary">
+    <h2>Берілген Жауаптар Саны</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Бөлім</th>
+        <th>Барлық сұрақтар саны</th>
+        <th>Жауап берілді</th>
+        <th>Жауап берілмеді</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let subject of testData">
+        <td>{{ subjectNames[subject.name] || subject.name }}</td>
+        <td>{{ subject.questions.length }}</td>
+        <td class="answered-questions">{{ getAnsweredCount(subject) }}</td>
+        <td class="unanswered-questions">{{ getUnansweredCount(subject) }}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="summary-actions">
+      <button class="decline-buttons" (click)="cancelSummary()">Күшін жою</button>
+      <button class="accept-buttons" (click)="confirmSummary()">Растау</button>
+    </div>
+  </div>
+
+  <div class="modal-window" *ngIf="showModal">
+    <h3>Тестті аяқтауды растаңыз</h3>
+    <p>Мысалды шешіңіз: {{ mathQuestion.num1 }} + {{ mathQuestion.num2 }} = ?</p>
+    <input type="text" [(ngModel)]="mathQuestion.answer" placeholder="Жауапты жазыңыз" />
+    <div class="modal-actions">
+      <button class="decline-buttons" (click)="closeModal()">Жабу</button>
+      <button class="accept-buttons" (click)="checkAnswer()">Растау</button>
+    </div>
+  </div>
+</div>

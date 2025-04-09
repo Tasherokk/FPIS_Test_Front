@@ -1,0 +1,115 @@
+/* Затемнение фона */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-window,.test-summary {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 800px;
+  text-align: center;
+}
+
+.modal-window input,.test-summary input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-window button,.test-summary button {
+  margin-top: 10px;
+}
+
+.modal-actions,.summary-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.accept-buttons {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid green;
+  background-color: green;
+  color: white;
+  border-radius: 4px;
+}
+
+.decline-buttons {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid indianred;
+  background-color: indianred;
+  color: white;
+  border-radius: 4px;
+}
+
+.accept-buttons:hover {
+  font-size: 1rem;
+  transform: scale(1.1);
+  background-color: darkgreen;
+}
+
+.decline-buttons:hover {
+  font-size: 1rem;
+  transform: scale(1.1);
+  background-color: red;
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+  border: 2px solid black;
+}
+
+table thead {
+  background-color: #2c3e50;
+  color: white;
+  text-align: left;
+}
+
+table th, table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table th {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+table tbody tr:hover {
+  background-color: #c8e6c9;
+}
+
+.answered-questions {
+  color: #388e3c;
+  font-weight: 600;
+}
+
+.unanswered-questions {
+  color: #d32f2f;
+  font-weight: 600;
+}
